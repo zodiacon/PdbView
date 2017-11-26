@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="PdbView.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PdbView.Views"
+             xmlns:sf="http://schemas.syncfusion.com/wpf"
+             xmlns:z="http://zodiacon.wpf/2016"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Menu z:InputHelper.AttachInputBindings="True" >
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" Icon="{z:Image /icons/open.ico, Width=20, Height=20}" />
+                <Separator />
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+        </Menu>
+        <ToolBar Grid.Row="1">
+            <Button Command="{Binding OpenCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/icons/open.ico" Width="20" Height="20" />
+                    <TextBlock Text="Open..." Margin="4,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>    
+        </ToolBar>
+        <sf:TabControlExt Grid.Row="2" ItemsSource="{Binding TabItems}" CloseButtonType="Hide" z:TabControlProperties.IsCached="True"
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <sf:TabControlExt.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Icon}" Width="20" Height="20" />
+                        <TextBlock Text="{Binding Text}" Margin="4,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </sf:TabControlExt.ItemTemplate>
+        </sf:TabControlExt>
+        <StatusBar Grid.Row="3">
+            <TextBlock Text="{Binding FileName}" />
+            <Separator />
+            <TextBlock Text="{Binding Symbols.Count, StringFormat=Total Symbols: \{0\}}" />
+            <Separator />
+            <TextBlock Text="{Binding Types.Count, StringFormat=Types: \{0\}}" />
+        </StatusBar>
+    </Grid>
+
+</UserControl>

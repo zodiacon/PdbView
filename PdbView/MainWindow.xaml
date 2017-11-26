@@ -1,0 +1,14 @@
+﻿<metro:MetroWindow x:Class="PdbView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PdbView"
+        xmlns:view="clr-namespace:PdbView.Views"
+        mc:Ignorable="d"
+        Title="Pdb Viewer v0.1 (C)2017 by Pavel Yosifovich" MinHeight="350" MinWidth="480" 
+        ResizeMode="CanResizeWithGrip" TitleCaps="False"
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1">
+    <view:MainView />
+</metro:MetroWindow>

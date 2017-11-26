@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="PdbView.Views.TypeDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sf="http://schemas.syncfusion.com/wpf"
+             xmlns:local="clr-namespace:PdbView.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <sf:SfTreeGrid Grid.Row="1" ItemsSource="{Binding Members}" AllowResizingColumns="True" x:Name="_treegrid">
+            <sf:SfTreeGrid.Columns>
+                <sf:TreeGridTextColumn HeaderText="Offset" MappingName="Offset" MinimumWidth="40" Width="60" TextAlignment="Center" 
+                                       IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}" />
+                <sf:TreeGridTextColumn HeaderText="Name" MappingName="Name" MinimumWidth="100" Width="200"/>
+                <sf:TreeGridTextColumn HeaderText="Value" MappingName="Value" MinimumWidth="40" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsNotEnum}" />
+                <sf:TreeGridTextColumn HeaderText="Type" MappingName="Type" MinimumWidth="40" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}" />
+            </sf:SfTreeGrid.Columns>    
+        </sf:SfTreeGrid>
+    </Grid>
+</UserControl>
