@@ -7,8 +7,8 @@
         xmlns:local="clr-namespace:PdbView"
         xmlns:view="clr-namespace:PdbView.Views"
         mc:Ignorable="d"
-        Title="Pdb Viewer v0.1 (C)2017 by Pavel Yosifovich" MinHeight="350" MinWidth="480" 
-        ResizeMode="CanResizeWithGrip" TitleCaps="False"
+        Title="PDB Viewer v0.1 (C)2017 by Pavel Yosifovich" MinHeight="350" MinWidth="480" 
+        ResizeMode="CanResizeWithGrip" TitleCaps="False" Icon="/icons/app.ico"
         BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1">
     <view:MainView />
 </metro:MetroWindow>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:sf="http://schemas.syncfusion.com/wpf"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:PdbView.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -12,14 +13,41 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <sf:SfTreeGrid Grid.Row="1" ItemsSource="{Binding Members}" AllowResizingColumns="True" x:Name="_treegrid">
+        <sf:SfTreeGrid Grid.Row="1" ItemsSource="{Binding Members}" AllowResizingColumns="True" x:Name="_treegrid" AutoGenerateColumns="False">
             <sf:SfTreeGrid.Columns>
-                <sf:TreeGridTextColumn HeaderText="Offset" MappingName="Offset" MinimumWidth="40" Width="60" TextAlignment="Center" 
-                                       IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}" />
-                <sf:TreeGridTextColumn HeaderText="Name" MappingName="Name" MinimumWidth="100" Width="200"/>
-                <sf:TreeGridTextColumn HeaderText="Value" MappingName="Value" MinimumWidth="40" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsNotEnum}" />
-                <sf:TreeGridTextColumn HeaderText="Type" MappingName="Type" MinimumWidth="40" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}" />
-            </sf:SfTreeGrid.Columns>    
+                <sf:TreeGridTemplateColumn HeaderText="Name" MappingName="Name" MinimumWidth="150" Width="240">
+                    <sf:TreeGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition  />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="/icons/pointer.ico" Width="20" Height="20" metro:VisibilityHelper.IsCollapsed="{Binding IsNotPointer}" ToolTip="Pointer"/>
+                                <Image Source="/icons/bitfield.ico" Width="20" Height="20" metro:VisibilityHelper.IsCollapsed="{Binding IsNotBitField}" ToolTip="Bitfield" />
+                                <Image Grid.Column="1" Source="/icons/enum.ico" Width="20" Height="20" metro:VisibilityHelper.IsVisible="{Binding IsEnum}" ToolTip="Enum" />
+                                <Image Grid.Column="1" Source="/icons/structure.ico" Width="20" Height="20" metro:VisibilityHelper.IsVisible="{Binding IsStruct}" ToolTip="Struct" />
+                                <Image Grid.Column="1" Source="/icons/union.ico" Width="20" Height="20" metro:VisibilityHelper.IsVisible="{Binding IsUnion}" ToolTip="Union" />
+                                <TextBlock Grid.Column="2" Text="{Binding Name}" FontWeight="Bold" Margin="4,0,0,0" VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </sf:TreeGridTemplateColumn.CellTemplate>
+                </sf:TreeGridTemplateColumn>
+                <sf:TreeGridTemplateColumn HeaderText="Offset" MappingName="Offset" MinimumWidth="60" Width="100" 
+                                           IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}">
+                    <sf:TreeGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock TextAlignment="Right" Margin="4,0">
+                                <Run Text="{Binding Offset, StringFormat=0x\{0:X\}, Mode=OneWay}" />
+                                <Run Text="{Binding Offset, Mode=OneWay, StringFormat=  (0)}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </sf:TreeGridTemplateColumn.CellTemplate>
+                </sf:TreeGridTemplateColumn>
+                <sf:TreeGridTextColumn HeaderText="Value" MappingName="Value" MinimumWidth="50" Width="70" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsNotEnum}" />
+                <sf:TreeGridTextColumn HeaderText="Type" MappingName="Type" MinimumWidth="50" Width="150" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}" />
+            </sf:SfTreeGrid.Columns>
         </sf:SfTreeGrid>
     </Grid>
 </UserControl>

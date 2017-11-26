@@ -15,9 +15,9 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Menu z:InputHelper.AttachInputBindings="True" >
+        <Menu z:InputHelper.AttachInputBindings="True" Visibility="Collapsed">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open..." Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" Icon="{z:Image /icons/open.ico, Width=20, Height=20}" />
+                <MenuItem Header="_Open..." Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" Icon="{z:Image /icons/open.ico, Width=24, Height=24}" />
                 <Separator />
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>

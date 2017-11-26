@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
         <sf:SfDataGrid Grid.Row="1" ItemsSource="{Binding Types}" SelectionMode="Single" AutoGenerateColumns="False" AllowResizingColumns="True"
                        Style="{StaticResource SfDataGridStyle}" SelectedItem="{Binding SelectedType, Mode=TwoWay, Delay=300}">

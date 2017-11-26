@@ -37,6 +37,9 @@
     <Prefer32Bit>false</Prefer32Bit>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icons\app.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -195,10 +198,13 @@
     <Resource Include="Icons\types.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\control_cursor.ico" />
+    <Resource Include="Icons\pointer.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\control_password.ico" />
+    <Resource Include="Icons\bitfield.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\app.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

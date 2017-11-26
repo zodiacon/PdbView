@@ -57,16 +57,16 @@ namespace PdbView.ViewModels {
                 var sd = vm.SymbolHandler.BuildStructDescriptor(vm.BaseAddress, TypeIndex);
                 if (IsEnum) {   // enum
                     foreach (var item in sd) {
-                        yield return new MemberViewModel { Name = item.Name, Value = item.Value };
+                        yield return new MemberViewModel(Type) { Name = item.Name, Value = item.Value };
                     }
                 }
                 else {
                     // struct / class / union
                     foreach (var item in sd) {
-                        yield return new MemberViewModel {
+                        yield return new MemberViewModel(vm.SymbolHandler.GetSymbolUdtKind(vm.BaseAddress, vm.SymbolHandler.GetSymbolType(vm.BaseAddress, item.TypeId)).ToString()) {
                             Name = item.Name,
                             Offset = item.Offset,
-                            Type = vm.GetSymbolTypeName(item.TypeId)
+                            Type = vm.GetSymbolTypeName(item.TypeId),
                         };
                     }
                 }
