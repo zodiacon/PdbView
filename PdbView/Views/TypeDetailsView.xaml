@@ -7,13 +7,18 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:PdbView.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="OnLoaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <sf:SfTreeGrid Grid.Row="1" ItemsSource="{Binding Members}" AllowResizingColumns="True" x:Name="_treegrid" AutoGenerateColumns="False">
+        <TextBox Text="{Binding FilterText, Delay=200, UpdateSourceTrigger=PropertyChanged}" metro:TextBoxHelper.Watermark="Type to filter" metro:TextBoxHelper.ClearTextButton="True" 
+                 Margin="2" HorizontalAlignment="Left" Width="300" />
+
+        <sf:SfTreeGrid Grid.Row="1" ItemsSource="{Binding Members}" AllowResizingColumns="True" x:Name="_treegrid" AutoGenerateColumns="False"
+                       ExpanderColumn="Type" ChildPropertyName="SubItems" IsReadOnly="True" Style="{StaticResource SfTreeGridStyle}" FilterLevel="Root"
+                       >
             <sf:SfTreeGrid.Columns>
                 <sf:TreeGridTemplateColumn HeaderText="Name" MappingName="Name" MinimumWidth="150" Width="240">
                     <sf:TreeGridTemplateColumn.CellTemplate>
@@ -29,7 +34,7 @@
                                 <Image Grid.Column="1" Source="/icons/enum.ico" Width="20" Height="20" metro:VisibilityHelper.IsVisible="{Binding IsEnum}" ToolTip="Enum" />
                                 <Image Grid.Column="1" Source="/icons/structure.ico" Width="20" Height="20" metro:VisibilityHelper.IsVisible="{Binding IsStruct}" ToolTip="Struct" />
                                 <Image Grid.Column="1" Source="/icons/union.ico" Width="20" Height="20" metro:VisibilityHelper.IsVisible="{Binding IsUnion}" ToolTip="Union" />
-                                <TextBlock Grid.Column="2" Text="{Binding Name}" FontWeight="Bold" Margin="4,0,0,0" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="2" Text="{Binding Name}" FontWeight="Bold" Margin="{Binding Indent}" VerticalAlignment="Center" />
                             </Grid>
                         </DataTemplate>
                     </sf:TreeGridTemplateColumn.CellTemplate>
@@ -45,7 +50,8 @@
                         </DataTemplate>
                     </sf:TreeGridTemplateColumn.CellTemplate>
                 </sf:TreeGridTemplateColumn>
-                <sf:TreeGridTextColumn HeaderText="Value" MappingName="Value" MinimumWidth="50" Width="70" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsNotEnum}" />
+                <sf:TreeGridTextColumn HeaderText="Value" MappingName="Value" MinimumWidth="50" Width="70" 
+                                       TextAlignment="Center" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsNotEnum}" />
                 <sf:TreeGridTextColumn HeaderText="Type" MappingName="Type" MinimumWidth="50" Width="150" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}" />
             </sf:SfTreeGrid.Columns>
         </sf:SfTreeGrid>

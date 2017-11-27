@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:sf="http://schemas.syncfusion.com/wpf"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:PdbView.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -16,8 +17,10 @@
             <ColumnDefinition />
             <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
+        <TextBox Text="{Binding FilterText, Delay=200, UpdateSourceTrigger=PropertyChanged}" metro:TextBoxHelper.Watermark="Type to filter" metro:TextBoxHelper.ClearTextButton="True" 
+                 Margin="2" HorizontalAlignment="Left" Width="350" />
         <sf:SfDataGrid Grid.Row="1" ItemsSource="{Binding Types}" SelectionMode="Single" AutoGenerateColumns="False" AllowResizingColumns="True"
-                       Style="{StaticResource SfDataGridStyle}" SelectedItem="{Binding SelectedType, Mode=TwoWay, Delay=300}">
+                       Style="{StaticResource SfDataGridStyle}" SelectedItem="{Binding SelectedType, Mode=TwoWay, Delay=200}" BindableView="{Binding View, Mode=OneWayToSource}">
             <sf:SfDataGrid.Columns>
                 <sf:GridTemplateColumn HeaderText="Name" MappingName="Name" MinimumWidth="120" Width="220">
                     <sf:GridTemplateColumn.CellTemplate>

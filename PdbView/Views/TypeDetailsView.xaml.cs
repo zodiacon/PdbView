@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PdbView.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,28 @@ namespace PdbView.Views {
     public partial class TypeDetailsView : UserControl {
         public TypeDetailsView() {
             InitializeComponent();
+
+            DataContextChanged += (s, e) => {
+                var oldvm = (SymbolViewModel)e.OldValue;
+                if (oldvm != null) {
+                    oldvm.FilterChanged -= OnFilterChanged;
+                }
+                var vm = (SymbolViewModel)e.NewValue;
+                if (vm != null) {
+                    vm.FilterChanged += OnFilterChanged;
+                }
+            };
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+        }
+
+        private void OnFilterChanged(Predicate<object> filter) {
+            var view = _treegrid.View;
+            if (view != null) {
+                view.Filter = filter;
+                view.RefreshFilter();
+            }
         }
     }
 }

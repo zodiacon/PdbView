@@ -8,6 +8,12 @@
         <Setter Property="AllowRowHoverHighlighting" Value="True" />
         <Setter Property="SelectionForegroundBrush" Value="{DynamicResource WhiteBrush}" />
         <Setter Property="SelectionUnit" Value="Row" />
+        <Setter Property="NavigationMode" Value="Row" />
+    </Style>
+    <Style TargetType="{x:Type sf:SfTreeGrid}" x:Key="SfTreeGridStyle" >
+        <Setter Property="SelectionBackground" Value="{DynamicResource AccentColorBrush}" />
+        <Setter Property="SelectionForeground" Value="{DynamicResource WhiteBrush}" />
+        <Setter Property="NavigationMode" Value="Row" />
     </Style>
 
 </ResourceDictionary>

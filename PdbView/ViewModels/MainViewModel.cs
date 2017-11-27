@@ -135,7 +135,7 @@ namespace PdbView.ViewModels {
                     name = GetBasicTypeNameFromBasicType(handler.GetSymbolBaseType(address, typeIndex));
                     var bit = handler.GetSymbolBitPosition(address, index);
                     if (bit >= 0) {
-                        name += $" Bit {bit} Len: {handler.GetSymbolLength(address, index)}";
+                        name += $" Bit: {bit} Len: {handler.GetSymbolLength(address, index)}";
                         break;
                     }
                     break;
