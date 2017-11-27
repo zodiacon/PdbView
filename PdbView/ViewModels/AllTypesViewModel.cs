@@ -44,6 +44,9 @@ namespace PdbView.ViewModels {
             }
         }
 
-
+        public void GotoType(string type) {
+            FilterText = null;
+            SelectedType = Types.First(sym => sym.Name == type);
+        }
     }
 }

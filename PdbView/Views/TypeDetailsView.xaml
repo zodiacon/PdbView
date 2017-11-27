@@ -6,7 +6,8 @@
              xmlns:sf="http://schemas.syncfusion.com/wpf"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:PdbView.Views"
-             mc:Ignorable="d" 
+             xmlns:vm="clr-namespace:PdbView.ViewModels"
+             mc:Ignorable="d" x:Name="This"
              d:DesignHeight="300" d:DesignWidth="300" Loaded="OnLoaded">
     <Grid>
         <Grid.RowDefinitions>
@@ -52,7 +53,20 @@
                 </sf:TreeGridTemplateColumn>
                 <sf:TreeGridTextColumn HeaderText="Value" MappingName="Value" MinimumWidth="50" Width="70" 
                                        TextAlignment="Center" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsNotEnum}" />
-                <sf:TreeGridTextColumn HeaderText="Type" MappingName="Type" MinimumWidth="50" Width="150" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}" />
+                <sf:TreeGridTemplateColumn HeaderText="Type" MappingName="Type" MinimumWidth="50" Width="150" IsHidden="{Binding ElementName=_treegrid, Path=DataContext.IsEnum}">
+                    <sf:TreeGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Type}" metro:VisibilityHelper.IsCollapsed="{Binding IsCustomType}" />
+                                <TextBlock metro:VisibilityHelper.IsVisible="{Binding IsCustomType}" >
+                                    <Hyperlink Command="vm:MainViewModel.JumpToTypeCommand" CommandParameter="{Binding}">
+                                        <TextBlock Text="{Binding Type, Mode=OneWay}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </sf:TreeGridTemplateColumn.CellTemplate>
+                </sf:TreeGridTemplateColumn>
             </sf:SfTreeGrid.Columns>
         </sf:SfTreeGrid>
     </Grid>

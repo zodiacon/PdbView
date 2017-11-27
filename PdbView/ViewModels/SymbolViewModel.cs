@@ -1,4 +1,5 @@
 ﻿using DebugHelp;
+using Prism.Commands;
 using Prism.Mvvm;
 using Syncfusion.UI.Xaml.TreeGrid;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace PdbView.ViewModels {
     sealed class SymbolViewModel : BindableBase {

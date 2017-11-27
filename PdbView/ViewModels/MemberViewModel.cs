@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Prism.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace PdbView.ViewModels {
     sealed class MemberViewModel {
@@ -23,6 +25,8 @@ namespace PdbView.ViewModels {
         public bool IsStruct => UdtType == "Struct";
         public bool IsUnion => UdtType == "Union";
         public Thickness Indent { get; set; }
+
+        public bool IsCustomType => IsStruct || IsUnion || IsEnum;
 
         public IEnumerable<MemberViewModel> SubItems {
             get {

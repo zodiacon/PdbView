@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Syncfusion.UI.Xaml.Grid;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,12 @@ namespace PdbView.Views {
     public partial class AllTypesView : UserControl {
         public AllTypesView() {
             InitializeComponent();
+        }
+
+        private void SfDataGrid_SelectionChanged(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e) {
+            var grid = (SfDataGrid)sender;
+            if (grid.SelectedItem != null)
+                grid.ScrollInView(new Syncfusion.UI.Xaml.ScrollAxis.RowColumnIndex(grid.SelectedIndex, 0));
         }
     }
 }

@@ -20,7 +20,8 @@
         <TextBox Text="{Binding FilterText, Delay=200, UpdateSourceTrigger=PropertyChanged}" metro:TextBoxHelper.Watermark="Type to filter" metro:TextBoxHelper.ClearTextButton="True" 
                  Margin="2" HorizontalAlignment="Left" Width="350" />
         <sf:SfDataGrid Grid.Row="1" ItemsSource="{Binding Types}" SelectionMode="Single" AutoGenerateColumns="False" AllowResizingColumns="True"
-                       Style="{StaticResource SfDataGridStyle}" SelectedItem="{Binding SelectedType, Mode=TwoWay, Delay=200}" BindableView="{Binding View, Mode=OneWayToSource}">
+                       Style="{StaticResource SfDataGridStyle}" SelectedItem="{Binding SelectedType, Mode=TwoWay, Delay=200}" BindableView="{Binding View, Mode=OneWayToSource}"
+                       SelectionChanged="SfDataGrid_SelectionChanged">
             <sf:SfDataGrid.Columns>
                 <sf:GridTemplateColumn HeaderText="Name" MappingName="Name" MinimumWidth="120" Width="220">
                     <sf:GridTemplateColumn.CellTemplate>

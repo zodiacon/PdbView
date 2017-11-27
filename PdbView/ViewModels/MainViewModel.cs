@@ -23,6 +23,7 @@ namespace PdbView.ViewModels {
         ObservableCollection<TabItemViewModelBase> _tabItems = new ObservableCollection<TabItemViewModelBase>();
         public IReadOnlyList<SymbolViewModel> Symbols { get; private set; }
         public IReadOnlyList<SymbolViewModel> Types { get; private set; }
+        public AllTypesViewModel AllTypes { get; private set; }
 
         string _filename;
         public string FileName {
@@ -71,6 +72,7 @@ namespace PdbView.ViewModels {
                 TabItems.Add(allSymbols);
 
                 var allTypes = new AllTypesViewModel(this, Types);
+                AllTypes = allTypes;
                 TabItems.Add(allTypes);
 
                 SelectedItem = TabItems[0];
@@ -155,6 +157,10 @@ namespace PdbView.ViewModels {
 
             return name;
         }
+
+        public static readonly ICommand JumpToTypeCommand = new DelegateCommand<MemberViewModel>(member => {
+            Instance.AllTypes.GotoType(member.Type);
+        });
 
         private static int GetBasicDataTypeSize(BasicType type) {
             switch (type) {
