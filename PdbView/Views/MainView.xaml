@@ -30,8 +30,9 @@
                 </StackPanel>
             </Button>    
         </ToolBar>
-        <sf:TabControlExt Grid.Row="2" ItemsSource="{Binding TabItems}" CloseButtonType="Hide" z:TabControlProperties.IsCached="True"
-                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}" BorderThickness="0" TabItemHoverBackground="{DynamicResource AccentColorBrush2}">
+        <sf:TabControlExt Grid.Row="2" ItemsSource="{Binding TabItems}" CloseButtonType="Hide" 
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}" BorderThickness="0" TabItemHoverBackground="{DynamicResource AccentColorBrush2}"
+                          sf:SkinStorage.VisualStyle="Metro" IsDisableUnloadTabItemExtContent="True">
             <sf:TabControlExt.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

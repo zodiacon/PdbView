@@ -19,7 +19,7 @@
 
         <sf:SfTreeGrid Grid.Row="1" ItemsSource="{Binding Members}" AllowResizingColumns="True" x:Name="_treegrid" AutoGenerateColumns="False"
                        ExpanderColumn="Type" ChildPropertyName="SubItems" IsReadOnly="True" Style="{StaticResource SfTreeGridStyle}" FilterLevel="Root"
-                       >
+                       sf:SkinStorage.VisualStyle="Metro">
             <sf:SfTreeGrid.Columns>
                 <sf:TreeGridTemplateColumn HeaderText="Name" MappingName="Name" MinimumWidth="150" Width="240">
                     <sf:TreeGridTemplateColumn.CellTemplate>

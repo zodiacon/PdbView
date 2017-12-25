@@ -17,7 +17,7 @@
                  Margin="2" HorizontalAlignment="Left" Width="350" />
         <sf:SfDataGrid Grid.Row="1" ItemsSource="{Binding Symbols}" SelectionMode="Single" AutoGenerateColumns="False" AllowResizingColumns="True"
                        Style="{StaticResource SfDataGridStyle}" BindableView="{Binding View, Mode=OneWayToSource}"
-                       >
+                       sf:SkinStorage.VisualStyle="Metro">
             <sf:SfDataGrid.Columns>
                 <sf:GridTemplateColumn HeaderText="Name" MappingName="Name" MinimumWidth="120" Width="220">
                     <sf:GridTemplateColumn.CellTemplate>
