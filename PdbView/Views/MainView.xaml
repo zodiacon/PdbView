@@ -32,7 +32,7 @@
         </ToolBar>
         <sf:TabControlExt Grid.Row="2" ItemsSource="{Binding TabItems}" CloseButtonType="Hide" 
                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}" BorderThickness="0" TabItemHoverBackground="{DynamicResource AccentColorBrush2}"
-                          sf:SkinStorage.VisualStyle="Metro" IsDisableUnloadTabItemExtContent="True">
+                          TabItemSelectedBackground="{DynamicResource AccentColorBrush}" IsDisableUnloadTabItemExtContent="True" TabItemSelectedForeground="{DynamicResource WhiteBrush}">
             <sf:TabControlExt.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
