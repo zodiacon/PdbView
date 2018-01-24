@@ -43,6 +43,6 @@
             
         </local:TypeDetailsView>
 
-        <GridSplitter Grid.Row="1" HorizontalAlignment="Right" Margin="-1,0" Width="3" Background="{DynamicResource BlackBrush}" VerticalAlignment="Stretch" />
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Right" Margin="-1,0" Width="2" Background="{DynamicResource AccentColorBrush}" VerticalAlignment="Stretch" />
     </Grid>
 </UserControl>

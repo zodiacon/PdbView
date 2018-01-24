@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PdbView.Views"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:sf="http://schemas.syncfusion.com/wpf"
              xmlns:z="http://zodiacon.wpf/2016"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" x:Name="This"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,9 +16,19 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Menu z:InputHelper.AttachInputBindings="True" Visibility="Collapsed">
+        <Menu z:InputHelper.AttachInputBindings="True" >
             <MenuItem Header="_File">
-                <MenuItem Header="_Open..." Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" Icon="{z:Image /icons/open.ico, Width=24, Height=24}" />
+                <MenuItem Header="_Open..." Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" Icon="{z:Image /icons/open.ico, Width=20, Height=20}" />
+                <Separator />
+                <MenuItem Header="_Recent Files" ItemsSource="{Binding RecentFiles}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource MetroMenuItem}">
+                            <Setter Property="Header" Value="{Binding}" />
+                            <Setter Property="Command" Value="{Binding DataContext.OpenRecentFileCommand, ElementName=This}" />
+                            <Setter Property="CommandParameter" Value="{Binding}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
@@ -25,7 +36,7 @@
         <ToolBar Grid.Row="1">
             <Button Command="{Binding OpenCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/icons/open.ico" Width="20" Height="20" />
+                    <Image Source="/icons/open.ico" Width="24" Height="24" />
                     <TextBlock Text="Open..." Margin="4,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>    
@@ -42,6 +53,7 @@
                 </DataTemplate>
             </sf:TabControlExt.ItemTemplate>
         </sf:TabControlExt>
+        <metro:ProgressRing IsActive="{Binding IsBusy}" IsLarge="True" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" />
         <StatusBar Grid.Row="3">
             <TextBlock Text="{Binding FileName}" />
             <Separator />

@@ -23,5 +23,10 @@ namespace PdbView {
             ui.MessageBoxService.SetOwner(win);
 
         }
+
+        protected override void OnExit(ExitEventArgs e) {
+            MainViewModel.Instance.SaveState();
+            base.OnExit(e);
+        }
     }
 }

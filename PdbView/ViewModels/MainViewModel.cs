@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using PdbView.Models;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +18,9 @@ using Zodiacon.WPF;
 namespace PdbView.ViewModels {
     class MainViewModel : BindableBase {
         Dictionary<int, string> _cache = new Dictionary<int, string>(256);
+        ObservableCollection<string> _recentFiles = new ObservableCollection<string>();
+
+        public IList<string> RecentFiles => _recentFiles;
 
         public readonly IUIServices UI;
         public SymbolHandler SymbolHandler { get; private set; }
@@ -38,9 +43,33 @@ namespace PdbView.ViewModels {
         public MainViewModel(IUIServices ui) {
             UI = ui;
             Instance = Instance == null ? this : throw new InvalidOperationException();
+            LoadState();
         }
 
-        public ICommand OpenCommand => new DelegateCommand(async() => await OpenFileInternal());
+        string GetStateFileName() {
+            return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\PdbView.state.xml";
+        }
+
+        private void LoadState() {
+            try {
+                using (var stm = File.OpenRead(GetStateFileName())) {
+                    var ser = new DataContractSerializer(typeof(Settings));
+                    var settings = (Settings)ser.ReadObject(stm);
+                    _recentFiles = new ObservableCollection<string>(settings.RecentFiles);
+                }
+            }
+            catch { }
+        }
+
+        public ICommand OpenCommand => new DelegateCommand(async () => {
+            var filename = UI.FileDialogService.GetFileForOpen(
+                "All supported files|*.pdb;*.exe;*.dll;*.sys;*.ocx|Pdb Files|*.pdb|Image files|*.exe;*.dll;*.sys;*.ocx|All Files|*.*", "Select File to Load");
+            if (filename == null)
+                return;
+            await OpenFileInternal(filename);
+            AddRecentFile(filename);
+        });
+
         public ICommand ExitCommand => new DelegateCommand(() => Application.Current.Shutdown());
 
         TabItemViewModelBase _selectedItem;
@@ -48,14 +77,14 @@ namespace PdbView.ViewModels {
             get => _selectedItem;
             set => SetProperty(ref _selectedItem, value);
         }
+        public bool IsBusy { get => _isBusy; set => SetProperty(ref _isBusy, value); }
 
-        private async Task OpenFileInternal() {
-            var filename = UI.FileDialogService.GetFileForOpen(
-                "All supported files|*.pdb;*.exe;*.dll;*.sys;*.ocx|Pdb Files|*.pdb|Image files|*.exe;*.dll;*.sys;*.ocx|All Files|*.*", "Select File to Load");
-            if (filename == null)
-                return;
-
+        private async Task OpenFileInternal(string filename) {
             try {
+                if (FileName == filename)
+                    return;
+
+                IsBusy = true;
                 var handler = SymbolHandler.Create();
                 var isPdb = Path.GetExtension(filename).Equals(".pdb", StringComparison.InvariantCultureIgnoreCase);
                 BaseAddress = await handler.TryLoadSymbolsForModuleAsync(filename, isPdb ? 0x1000000UL : 0);
@@ -65,10 +94,10 @@ namespace PdbView.ViewModels {
 
                 _cache.Clear();
 
-                Symbols = SymbolHandler.EnumSymbols(BaseAddress).Select(sym => new SymbolViewModel(sym, GetTypeName(sym))).ToList();
-                Types = SymbolHandler.EnumTypes(BaseAddress).Select(sym => new SymbolViewModel(sym, GetTypeName(sym))).ToList();
+                Symbols = await Task.Run(() => SymbolHandler.EnumSymbols(BaseAddress).Select(sym => new SymbolViewModel(sym, GetTypeName(sym))).ToList());
+                Types = await Task.Run(() => SymbolHandler.EnumTypes(BaseAddress).Select(sym => new SymbolViewModel(sym, GetTypeName(sym))).ToList());
 
-                var allSymbols = new AllSymbolsViewModel(this, Symbols.Concat(Types).OrderBy(sym => sym.Name));
+                var allSymbols = await Task.Run(() => new AllSymbolsViewModel(this, Symbols.Concat(Types).OrderBy(sym => sym.Name)));
                 TabItems.Add(allSymbols);
 
                 var allTypes = new AllTypesViewModel(this, Types);
@@ -85,7 +114,26 @@ namespace PdbView.ViewModels {
             catch (Exception ex) {
                 UI.MessageBoxService.ShowMessage($"Error: {ex.Message}", App.Title);
             }
+            finally {
+                IsBusy = false;
+            }
         }
+
+        private void AddRecentFile(string filename) {
+            RecentFiles.Insert(0, filename);
+            if (RecentFiles.Count > 10)
+                RecentFiles.RemoveAt(10);
+        }
+
+        public ICommand OpenRecentFileCommand => new DelegateCommand<string>(async filename => {
+            if (FileName == filename)
+                return;
+            await OpenFileInternal(filename);
+            RecentFiles.Remove(filename);
+            AddRecentFile(filename);
+        });
+
+        bool _isBusy;
 
         public string GetTypeName(SymbolInfo sym) {
             var tag = sym.Tag;
@@ -198,6 +246,19 @@ namespace PdbView.ViewModels {
                 default:
                     return type.ToString();
             }
+        }
+
+        public void SaveState() {
+            try {
+                using (var stm = File.Create(GetStateFileName())) {
+                    var ser = new DataContractSerializer(typeof(Settings));
+                    var settings = new Settings {
+                        RecentFiles = RecentFiles.ToArray()
+                    };
+                    ser.WriteObject(stm, settings);
+                }
+            }
+            catch { }
         }
     }
 }

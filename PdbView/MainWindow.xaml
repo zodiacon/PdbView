@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PdbView"
         xmlns:view="clr-namespace:PdbView.Views"
         mc:Ignorable="d"
-        Title="PDB Viewer v0.1 (C)2017 by Pavel Yosifovich" MinHeight="350" MinWidth="480" 
+        Title="PDB Viewer v0.2 (C)2017-2018 by Pavel Yosifovich" MinHeight="350" MinWidth="480" 
         ResizeMode="CanResizeWithGrip" TitleCaps="False" Icon="/icons/app.ico"
         BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1">
     <view:MainView />
